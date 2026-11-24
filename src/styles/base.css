@@ -1,0 +1,654 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 1.05rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+}
+
+p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+a {
+  color: var(--primary);
+}
+
+code {
+  font-family: var(--font-family-monospace);
+  font-size: 0.95em;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--primary) 35%, transparent);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}
+
+/* ------------------------------------------------------------------ backdrop */
+
+.mesh {
+  position: fixed;
+  inset: -20%;
+  z-index: -2;
+  background: var(--bg-gradient);
+  filter: blur(28px) saturate(120%);
+  pointer-events: none;
+}
+
+.liquid {
+  position: fixed;
+  inset: -10%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.liquid svg {
+  width: 100%;
+  height: 100%;
+}
+
+.liquid i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: url(#syncura-goo);
+}
+
+.liquid .b1 {
+  width: 46%;
+  height: 42%;
+  left: 6%;
+  top: 12%;
+  background: radial-gradient(ellipse at 34% 38%, color-mix(in oklab, var(--mesh-1) 86%, white), var(--mesh-1) 64%, transparent);
+  border-radius: 44% 56% 67% 33% / 46% 38% 62% 54%;
+  animation: drift1 26s ease-in-out infinite, liquidMorph 23s ease-in-out infinite alternate;
+}
+
+.liquid .b2 {
+  width: 38%;
+  height: 48%;
+  right: 8%;
+  top: 6%;
+  background: radial-gradient(ellipse at 58% 42%, color-mix(in oklab, var(--mesh-2) 82%, white), var(--mesh-2) 62%, transparent);
+  border-radius: 58% 42% 38% 62% / 49% 55% 45% 51%;
+  animation: drift2 32s ease-in-out infinite, liquidMorph 29s ease-in-out infinite alternate-reverse;
+}
+
+.liquid .b3 {
+  width: 52%;
+  height: 40%;
+  left: 22%;
+  bottom: 8%;
+  background: radial-gradient(ellipse at 48% 55%, color-mix(in oklab, var(--mesh-3) 84%, white), var(--mesh-3) 65%, transparent);
+  border-radius: 39% 61% 57% 43% / 55% 39% 61% 45%;
+  animation: drift3 29s ease-in-out infinite, liquidMorph 25s ease-in-out infinite alternate;
+}
+
+.liquid .b4 {
+  width: 26%;
+  height: 30%;
+  left: 48%;
+  top: 38%;
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--mesh-1) 76%, white), var(--mesh-1) 67%, transparent);
+  border-radius: 65% 35% 44% 56% / 39% 64% 36% 61%;
+  animation: drift2 24s ease-in-out infinite reverse, liquidMorph 21s ease-in-out infinite alternate-reverse;
+}
+
+.liquid .b5 {
+  width: 32%;
+  height: 28%;
+  left: 10%;
+  bottom: 26%;
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--mesh-2) 78%, white), var(--mesh-2) 64%, transparent);
+  border-radius: 47% 53% 63% 37% / 60% 42% 58% 40%;
+  animation: drift1 30s ease-in-out infinite reverse, liquidMorph 27s ease-in-out infinite alternate;
+}
+
+.clear-liquid {
+  position: fixed;
+  z-index: -1;
+  inset: -12%;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 1200px;
+  opacity: 0.62;
+}
+
+.clear-liquid-shape {
+  position: absolute;
+  display: block;
+  border: 1px solid rgba(235, 255, 252, 0.42);
+  border-radius: 48% 52% 58% 42% / 43% 48% 52% 57%;
+  background:
+    radial-gradient(ellipse at 28% 18%, rgba(255, 255, 255, 0.56), transparent 22%),
+    radial-gradient(ellipse at 73% 78%, rgba(139, 223, 217, 0.2), transparent 47%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(199, 245, 240, 0.035) 47%, rgba(255, 255, 255, 0.17));
+  box-shadow:
+    inset 0 2px 8px rgba(255, 255, 255, 0.33),
+    inset -12px -16px 36px rgba(102, 194, 193, 0.1),
+    0 22px 58px rgba(72, 157, 162, 0.09);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  will-change: transform, border-radius;
+}
+
+.clear-liquid-shape::after {
+  position: absolute;
+  inset: 8% 12%;
+  content: "";
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: inherit;
+  transform: rotate(-22deg) scale(0.94);
+}
+
+.shape-a {
+  top: 5%;
+  left: 4%;
+  width: clamp(19rem, 34vw, 39rem);
+  height: clamp(13rem, 25vw, 29rem);
+  animation: clear-drift-a 29s ease-in-out infinite alternate;
+}
+
+.shape-b {
+  top: 10%;
+  right: 2%;
+  width: clamp(16rem, 29vw, 34rem);
+  height: clamp(21rem, 34vw, 39rem);
+  animation: clear-drift-b 35s ease-in-out infinite alternate;
+}
+
+.shape-c {
+  right: 24%;
+  bottom: -4%;
+  width: clamp(18rem, 35vw, 42rem);
+  height: clamp(13rem, 22vw, 26rem);
+  animation: clear-drift-c 32s ease-in-out infinite alternate;
+}
+
+.shape-d {
+  top: 39%;
+  left: 25%;
+  width: clamp(13rem, 21vw, 25rem);
+  height: clamp(11rem, 18vw, 21rem);
+  border-color: rgba(224, 255, 252, 0.2);
+  background:
+    radial-gradient(ellipse at 25% 20%, rgba(255, 255, 255, 0.32), transparent 23%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(192, 238, 237, 0.018), rgba(255, 255, 255, 0.09));
+  animation: clear-drift-d 27s ease-in-out infinite alternate;
+}
+
+@keyframes clear-drift-a {
+  0% { transform: translate3d(-3%, 1%, -20px) rotate(-12deg); border-radius: 48% 52% 58% 42% / 43% 48% 52% 57%; }
+  50% { border-radius: 57% 43% 45% 55% / 54% 38% 62% 46%; }
+  100% { transform: translate3d(12%, 17%, 28px) rotate(8deg); border-radius: 42% 58% 51% 49% / 39% 57% 43% 61%; }
+}
+
+@keyframes clear-drift-b {
+  0% { transform: translate3d(8%, -5%, -24px) rotate(12deg); border-radius: 46% 54% 39% 61% / 53% 40% 60% 47%; }
+  50% { border-radius: 58% 42% 54% 46% / 42% 58% 42% 58%; }
+  100% { transform: translate3d(-14%, 13%, 25px) rotate(-9deg); border-radius: 40% 60% 58% 42% / 57% 43% 57% 43%; }
+}
+
+@keyframes clear-drift-c {
+  0% { transform: translate3d(6%, 8%, 0) rotate(7deg); border-radius: 60% 40% 48% 52% / 42% 55% 45% 58%; }
+  50% { border-radius: 44% 56% 59% 41% / 60% 43% 57% 40%; }
+  100% { transform: translate3d(-11%, -9%, 22px) rotate(-10deg); border-radius: 52% 48% 40% 60% / 47% 61% 39% 53%; }
+}
+
+@keyframes clear-drift-d {
+  0% { transform: translate3d(-8%, -2%, -18px) rotate(-15deg); border-radius: 39% 61% 50% 50% / 48% 42% 58% 52%; }
+  100% { transform: translate3d(15%, 12%, 32px) rotate(13deg); border-radius: 57% 43% 43% 57% / 58% 48% 52% 42%; }
+}
+
+@keyframes liquidMorph {
+  0% {
+    border-radius: 44% 56% 67% 33% / 46% 38% 62% 54%;
+  }
+  50% {
+    border-radius: 61% 39% 42% 58% / 54% 62% 38% 46%;
+  }
+  100% {
+    border-radius: 36% 64% 55% 45% / 64% 42% 58% 36%;
+  }
+}
+
+@keyframes drift1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(14%, 10%) scale(1.16);
+  }
+}
+
+@keyframes drift2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate(-12%, 16%) scale(0.92);
+  }
+}
+
+@keyframes drift3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(0.96);
+  }
+  50% {
+    transform: translate(10%, -14%) scale(1.2);
+  }
+}
+
+/* ------------------------------------------------------------------ shell */
+
+.shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.personal-wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  opacity: 0;
+  animation: wallpaperFade 650ms ease-out forwards;
+  pointer-events: none;
+}
+
+.personal-wallpaper img,
+.personal-wallpaper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.personal-wallpaper ~ .mesh {
+  opacity: 0.42;
+}
+
+.personal-wallpaper ~ .liquid {
+  opacity: 0.28;
+}
+
+.personal-wallpaper ~ .clear-liquid {
+  opacity: 0.34;
+}
+
+.mesh {
+  filter: blur(36px) saturate(120%);
+  background-size: 150% 150%;
+  animation: backdrop-wash 38s ease-in-out infinite alternate;
+}
+
+.liquid {
+  opacity: 0.42;
+}
+
+@keyframes backdrop-wash {
+  0% { background-position: 0% 10%; }
+  100% { background-position: 100% 90%; }
+}
+
+@keyframes wallpaperFade {
+  to {
+    opacity: 0.52;
+  }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: calc(var(--safe-area-inset-top) + 0.75rem) 1rem 0.75rem;
+  background: color-mix(in oklab, var(--glass) 80%, transparent);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--border);
+}
+
+.headerInner {
+  max-width: 46rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wordmark {
+  font-family: var(--font-family-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logoLockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.logoMark {
+  flex: none;
+  border-radius: 24%;
+  object-fit: cover;
+  box-shadow: 0 1px 6px rgba(80, 50, 160, 0.28);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1rem 1rem calc(var(--safe-area-inset-bottom) + 6rem);
+}
+
+.nav {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--safe-area-inset-bottom) + 0.6rem);
+  z-index: 30;
+  display: flex;
+  gap: 0.15rem;
+  padding: 0.3rem;
+  max-width: calc(100vw - 1.2rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--glass-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--animation-duration-fast), color var(--animation-duration-fast);
+}
+
+.nav a[aria-current="page"] {
+  background: var(--primary-gradient);
+  color: #fff;
+}
+
+.nav svg {
+  width: 18px;
+  height: 18px;
+}
+
+.nav-icon-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.nav-unread {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.75rem;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #ef5874;
+  color: #fff;
+  font-size: 0.62rem;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0.65);
+  transition: opacity 240ms ease, transform 300ms cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+}
+
+.nav-unread.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.startup-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  perspective: 1100px;
+  pointer-events: none;
+  animation: startup-scene-in 1000ms cubic-bezier(.2,.7,.2,1) both;
+}
+
+.startup-main-mark {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  width: min(82vw, 58vh, 35rem);
+  transform: translate(-50%, -58%);
+  filter:
+    drop-shadow(0 25px 28px rgba(21, 69, 79, 0.2))
+    drop-shadow(0 2px 2px rgba(255, 255, 255, 0.7));
+  animation: startup-mark-float 7.2s ease-in-out infinite;
+}
+
+.startup-main-mark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.startup-credit {
+  position: absolute;
+  right: 1.3rem;
+  bottom: calc(var(--safe-area-inset-bottom) + 2.1rem);
+  left: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transform-style: preserve-3d;
+  animation: startup-credit-float 5.8s ease-in-out infinite;
+}
+
+.startup-credit img {
+  width: clamp(2.7rem, 10vw, 4.6rem);
+  height: clamp(2.7rem, 10vw, 4.6rem);
+  object-fit: contain;
+  filter:
+    drop-shadow(0 8px 4px rgba(23, 48, 59, 0.24))
+    drop-shadow(0 1px 1px rgba(255, 255, 255, 0.9));
+}
+
+.startup-credit span {
+  color: color-mix(in oklab, var(--foreground) 88%, white 12%);
+  font-family: var(--font-family-display);
+  font-size: clamp(0.88rem, 3.4vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.74),
+    0 2px 0 rgba(76, 111, 117, 0.28),
+    0 4px 0 rgba(30, 67, 75, 0.14),
+    0 10px 18px rgba(18, 61, 70, 0.2);
+  transform: translateZ(20px);
+}
+
+.startup-intro.is-exiting {
+  animation: startup-scene-out 720ms cubic-bezier(.4, 0, .2, 1) both;
+}
+
+@keyframes startup-scene-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes startup-scene-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes startup-mark-float {
+  0%, 100% { transform: translate(-50%, -58%) translateY(0) rotateX(0deg); }
+  50% { transform: translate(-50%, -58%) translateY(-7px) rotateX(0.8deg); }
+}
+
+@keyframes startup-credit-float {
+  0%, 100% { transform: translateY(0) rotateX(0deg); }
+  50% { transform: translateY(-5px) rotateX(1deg); }
+}
+
+.authPage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: calc(var(--safe-area-inset-top) + 2rem) 1.25rem
+    calc(var(--safe-area-inset-bottom) + 2rem);
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.sub {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+}
+
+.fine {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.sectionTitle {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.grow {
+  flex: 1;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageTop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startup-intro {
+    animation-duration: 1ms !important;
+  }
+  .startup-main-mark,
+  .startup-credit,
+  .clear-liquid-shape,
+  .card {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

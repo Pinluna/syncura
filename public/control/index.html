@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Syncura · Local Server</title>
+    <link rel="stylesheet" href="/app.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <main class="dashboard">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Syncura local server dashboard">
+          <span class="brand-mark">S</span>
+          <span><strong>SYNCURA</strong><small>LOCAL CONTROL</small></span>
+        </a>
+        <div class="local-lock"><span></span> THIS PC ONLY</div>
+      </header>
+
+      <section class="intro">
+        <div>
+          <p class="eyebrow">SERVER OVERVIEW</p>
+          <h1>Your server,<br /><em>at a glance.</em></h1>
+          <p class="lead">Monitor local Syncura traffic and control the server running on this computer.</p>
+        </div>
+        <div class="status-card glass">
+          <div class="status-line">
+            <span id="status-dot" class="status-dot"></span>
+            <span id="status-label">Checking server…</span>
+            <span id="managed-label" class="managed-pill">Connecting</span>
+          </div>
+          <div class="server-address"><span>API ADDRESS</span><strong id="server-url">—</strong></div>
+          <div class="server-meta"><span>Uptime</span><strong id="uptime">—</strong></div>
+          <div class="actions">
+            <button id="start-button" class="button button-start" type="button">Start server</button>
+            <button id="stop-button" class="button button-stop" type="button">Stop server</button>
+          </div>
+          <p id="control-hint" class="control-hint">Controls affect only this PC’s Syncura server process.</p>
+          <p id="error-message" class="error-message" hidden></p>
+        </div>
+      </section>
+
+      <section class="metrics-grid" aria-label="Server traffic metrics">
+        <article class="metric-card glass">
+          <div class="metric-top"><span>REQUESTS</span><span class="metric-icon icon-request">↗</span></div>
+          <strong id="requests-total" class="metric-value">—</strong>
+          <small id="requests-rate">Since server started</small>
+        </article>
+        <article class="metric-card glass">
+          <div class="metric-top"><span>RESPONSE DATA</span><span class="metric-icon icon-data">⇅</span></div>
+          <strong id="bytes-total" class="metric-value">—</strong>
+          <small>Sent by the API</small>
+        </article>
+        <article class="metric-card glass">
+          <div class="metric-top"><span>CONNECTED DEVICES</span><span class="metric-icon icon-device">◉</span></div>
+          <strong id="connections-total" class="metric-value">—</strong>
+          <small id="connections-detail">Live connections</small>
+        </article>
+        <article class="metric-card glass">
+          <div class="metric-top"><span>ERROR RESPONSES</span><span class="metric-icon icon-error">!</span></div>
+          <strong id="errors-total" class="metric-value">—</strong>
+          <small>HTTP 4xx and 5xx</small>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel glass traffic-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">LIVE ACTIVITY</p><h2>Traffic flow</h2></div>
+            <span class="live-label"><i></i> UPDATING</span>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-y-label"><span>HIGH</span><span>0</span></div>
+            <svg id="traffic-chart" viewBox="0 0 720 180" preserveAspectRatio="none" role="img" aria-label="Requests per minute during the last hour">
+              <defs>
+                <linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#5ce4ba" stop-opacity=".34" />
+                  <stop offset="1" stop-color="#5ce4ba" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path id="chart-area" d="" fill="url(#chart-fill)"></path>
+              <path id="chart-line" d="" fill="none" stroke="#68e9c1" stroke-width="3" vector-effect="non-scaling-stroke"></path>
+              <g id="chart-grid"></g>
+            </svg>
+          </div>
+          <div class="chart-axis"><span>60 min ago</span><span>30 min ago</span><span>Now</span></div>
+          <p id="chart-empty" class="empty-note">Traffic history appears while the server is running.</p>
+        </article>
+
+        <article class="panel glass recent-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">REQUEST LOG</p><h2>Recent activity</h2></div>
+            <span id="recent-count" class="count-pill">0</span>
+          </div>
+          <p class="privacy-note"><span>◇</span> Metadata only. Message content, credentials, and request bodies are never shown.</p>
+          <div class="table-head"><span>ROUTE</span><span>STATUS</span><span>TIME</span></div>
+          <div id="request-list" class="request-list">
+            <div class="empty-row">Waiting for server traffic…</div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span><i class="footer-pulse"></i> Control panel bound to 127.0.0.1</span>
+        <span>Traffic metrics are kept in memory and reset when the API restarts.</span>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+	"appId": "app.syncura",
+	"appName": "Syncura",
+	"webDir": "dist",
+	"android": {
+		"backgroundColor": "#eff9f7"
+	},
+	"server": {
+		"androidScheme": "https"
+	}
+}

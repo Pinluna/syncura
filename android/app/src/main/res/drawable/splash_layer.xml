@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android splash styling.
+
+     Android 12+ shows this drawable on its own splash screen before the WebView
+     exists, so the mark here is the first thing seen on a cold start. It sits on
+     the app background with nothing behind it: the artwork is a cut-out, so the
+     launcher may tint or mask it and the surrounding pixels stay the app's own
+     surface colour rather than a baked-in plate. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash" />
+    </item>
+</layer-list>

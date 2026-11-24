@@ -1,0 +1,234 @@
+/* Full-bleed media viewer and the immersive video surfaces.
+
+   Photos fill the screen edge to edge but deliberately keep the status and nav
+   bars: they are still content inside a chat, and a viewer that swallowed the
+   system bars made returning to the conversation feel like leaving the app.
+   Video is the opposite -- it is what people actually want to watch fullscreen,
+   so both the video viewer and a video call go truly immersive and hide the
+   bars, with the controls fading out of the way.
+
+   The z-index scale tops out at --z-critical (2000); immersive surfaces sit
+   above everything including dialogs, because a fullscreen video that a toast
+   can cover is not fullscreen. */
+.viewer {
+position:fixed;
+top:0;
+right:0;
+bottom:0;
+left:0;
+z-index:var(--z-critical);
+display:flex;
+flex-direction:column;
+background:#05090b;
+color:#fff;
+}
+.viewer-bar {
+display:flex;
+align-items:center;
+gap:.7rem;
+padding:calc(var(--safe-area-inset-top) + .7rem) 1rem .7rem;
+background:linear-gradient(180deg,#000000cc,#00000000);
+}
+.viewer-bar .grow {
+min-width:0;
+}
+.viewer-title {
+overflow:hidden;
+font-size:.86rem;
+font-weight:600;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+.viewer-sub {
+color:#ffffffa6;
+font-size:.7rem;
+}
+.viewer-stage {
+position:relative;
+flex:1;
+min-height:0;
+display:grid;
+place-items:center;
+}
+/* Tap anywhere that is not the media itself to dismiss. The stage is the whole
+   area behind the media, so a tap on a letterboxed video still closes it. */
+.viewer-stage[data-dismiss] {
+cursor:zoom-out;
+}
+.viewer-stage img {
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+user-select:none;
+-webkit-user-drag:none;
+}
+.viewer-stage video {
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+background:#000;
+}
+.viewer-stage audio {
+width:min(30rem,88vw);
+}
+.viewer-close {
+flex:none;
+color:#fff;
+border-color:#ffffff3d;
+background:#ffffff14;
+}
+.viewer-note {
+padding:.5rem 1rem calc(var(--safe-area-inset-bottom) + .9rem);
+color:#ffffff8c;
+font-size:.68rem;
+text-align:center;
+}
+
+/* True immersive: no status bar, no nav bar. Applied to the document root while
+   a video surface is open so the WebView chrome goes with it. */
+:root[data-immersive] .viewer-bar {
+padding-top:calc(var(--safe-area-inset-top) + .5rem);
+}
+:root[data-immersive] .viewer {
+padding:0;
+}
+:root[data-immersive] {
+--safe-area-inset-top:0px;
+--safe-area-inset-bottom:0px;
+}
+.viewer[data-immersive] .viewer-stage video {
+max-width:none;
+max-height:none;
+width:100%;
+height:100%;
+}
+.viewer[data-immersive] .viewer-stage {
+background:#000;
+}
+.viewer[data-immersive] .viewer-bar {
+background:linear-gradient(180deg,#000000b8,#00000000);
+}
+.viewer[data-immersive] .viewer-note {
+display:none;
+}
+
+/* The video controls are custom so they can fade out; the native ones would sit
+   permanently over the picture. They reappear on any tap. */
+.viewer-controls {
+position:absolute;
+right:0;
+bottom:0;
+left:0;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:.5rem;
+padding:.9rem 1rem calc(var(--safe-area-inset-bottom) + 1.1rem);
+background:linear-gradient(0deg,#000000b0,#00000000);
+transition:opacity .22s ease;
+}
+.viewer[data-controls-hidden] .viewer-controls {
+opacity:0;
+pointer-events:none;
+}
+.viewer-toggle {
+display:grid;
+place-items:center;
+width:2.9rem;
+height:2.9rem;
+color:#fff;
+border:1px solid #ffffff3d;
+border-radius:999px;
+background:#ffffff1a;
+}
+.viewer-toggle svg {
+width:1.25rem;
+height:1.25rem;
+}
+
+/* Immersive video call: the remote stream is the whole screen and the local
+   camera shrinks into a draggable corner box, which is the arrangement people
+   expect from a phone call. */
+.call-overlay[data-immersive] {
+z-index:var(--z-critical);
+padding:0;
+background:#000;
+}
+.call-overlay[data-immersive] .call-panel {
+width:100%;
+height:100%;
+max-height:none;
+gap:0;
+padding:0;
+border:0;
+border-radius:0;
+background:#000;
+box-shadow:none;
+}
+.call-overlay[data-immersive] .call-topbar {
+display:flex;
+align-items:flex-start;
+gap:.7rem;
+padding:calc(var(--safe-area-inset-top) + .8rem) 1rem 2.5rem;
+background:linear-gradient(180deg,#000000c4,#00000000);
+color:#fff;
+}
+.call-overlay[data-immersive] .call-topbar strong {
+font-size:1.05rem;
+}
+.call-overlay[data-immersive] .call-topbar .sub {
+color:#ffffffb3;
+}
+.call-overlay[data-immersive] .call-videos {
+flex:1;
+min-height:0;
+border-radius:0;
+}
+.call-overlay[data-immersive] .call-videos video:first-child {
+width:100%;
+height:100%;
+max-height:none;
+object-fit:cover;
+}
+.call-overlay[data-immersive] .call-videos video:last-child {
+position:absolute;
+right:1rem;
+bottom:calc(var(--safe-area-inset-bottom) + 5.6rem);
+z-index:2;
+width:min(30vw,7.5rem);
+aspect-ratio:3/4;
+object-fit:cover;
+border:1px solid #ffffff5c;
+border-radius:.9rem;
+box-shadow:0 8px 22px #000000a6;
+transform:scale(var(--pip-scale,1));
+transform-origin:bottom right;
+touch-action:none;
+}
+.call-overlay[data-immersive] .call-footer {
+display:flex;
+align-items:center;
+justify-content:center;
+gap:.8rem;
+padding:1.2rem 1rem calc(var(--safe-area-inset-bottom) + 1.4rem);
+background:linear-gradient(0deg,#000000c4,#00000000);
+}
+/* Tapping the remote stream toggles the chrome on an immersive call, so the
+   picture can be left completely bare. */
+.call-overlay[data-immersive][data-chrome-hidden] .call-topbar,
+.call-overlay[data-immersive][data-chrome-hidden] .call-footer,
+.call-overlay[data-immersive][data-chrome-hidden] .call-videos video:last-child {
+opacity:0;
+pointer-events:none;
+}
+.call-topbar {
+color:inherit;
+}
+.call-footer {
+flex-wrap:wrap;
+}
+@media (prefers-reduced-motion:reduce) {
+.viewer-controls {
+transition:none;
+}
+}

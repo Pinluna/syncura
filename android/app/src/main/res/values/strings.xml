@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Syncura</string>
+    <string name="title_activity_main">Syncura</string>
+    <string name="package_name">app.syncura</string>
+    <string name="custom_url_scheme">app.syncura</string>
+</resources>

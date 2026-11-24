@@ -1,0 +1,135 @@
+:root {
+  --z-overlay: 400;
+  --z-spotlight: 1000;
+  --z-critical: 2000;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+
+  --background: #e6f1f1;
+  --foreground: #142b30;
+  --surface: #f3f9f8;
+  --surface-foreground: #142b30;
+  --sidebar: #f3f9f8;
+  --sidebar-foreground: #142b30;
+  --card: rgba(238, 250, 248, 0.88);
+  --card-foreground: #142b30;
+  --popup: #f5fbfa;
+  --popup-foreground: #142b30;
+  --primary: #188f8a;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(24, 143, 138, 0.12);
+  --secondary-foreground: #14515a;
+  --accent: #49b6b2;
+  --accent-foreground: #ffffff;
+  --muted: rgba(20, 43, 48, 0.06);
+  --muted-foreground: #607b7e;
+  --success: #16a37f;
+  --success-foreground: #ffffff;
+  --error: #e5384f;
+  --error-foreground: #ffffff;
+  --warning: #e59a1a;
+  --warning-foreground: #1b1633;
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.78);
+  --border-strong: rgba(20, 64, 72, 0.16);
+  --glass: rgba(231, 249, 247, 0.66);
+  --glass-strong: rgba(246, 253, 252, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.94);
+  --glass-highlight: rgba(255, 255, 255, 0.98);
+  --glass-blur: 30px;
+  --mesh-1: #a5d9dc;
+  --mesh-2: #d0e7ef;
+  --mesh-3: #a7e1d8;
+  --bg-gradient:
+    radial-gradient(60% 50% at 15% 10%, var(--mesh-1) 0%, transparent 70%),
+    radial-gradient(50% 45% at 90% 20%, var(--mesh-2) 0%, transparent 70%),
+    radial-gradient(60% 50% at 70% 95%, var(--mesh-3) 0%, transparent 70%);
+  --primary-gradient: linear-gradient(135deg, #188f8a, #4fbdb4);
+  --font-family-base: "Inter Tight", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+    sans-serif;
+  --font-family-display: "Bricolage Grotesque", -apple-system, "SF Pro Display", system-ui,
+    sans-serif;
+  --font-family-monospace: ui-monospace, "SF Mono", Menlo, monospace;
+  --shadow: 0 7px 18px rgba(37, 77, 83, 0.09);
+  --shadow-md: 0 14px 34px rgba(37, 77, 83, 0.15);
+  --shadow-lg: 0 24px 64px rgba(37, 77, 83, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(24, 143, 138, 0.3);
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-full: 999px;
+  --animation-duration-fast: 0.12s;
+  --animation-duration-normal: 0.24s;
+  --animation-duration-slow: 0.48s;
+  --chart-color-1: #188f8a;
+  --chart-color-2: #68b9c5;
+  --chart-color-3: #68a9d8;
+  --chart-color-4: #43b99a;
+  --chart-color-5: #dca95e;
+
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+}
+
+.dark {
+  --background: #091719;
+  --foreground: #e6f5f2;
+  --surface: #102426;
+  --surface-foreground: #e6f5f2;
+  --sidebar: #102426;
+  --sidebar-foreground: #e6f5f2;
+  --card: rgba(19, 42, 45, 0.94);
+  --card-foreground: #e6f5f2;
+  --popup: #12292b;
+  --popup-foreground: #e6f5f2;
+  --primary: #69d4c4;
+  --primary-foreground: #08221f;
+  --secondary: rgba(105, 212, 196, 0.16);
+  --secondary-foreground: #c3f0e8;
+  --accent: #7ebfc9;
+  --accent-foreground: #0a2426;
+  --muted: rgba(255, 255, 255, 0.07);
+  --muted-foreground: #9bb5b4;
+  --success: #34d3a8;
+  --success-foreground: #04231a;
+  --error: #ff7784;
+  --error-foreground: #290b10;
+  --warning: #ffc477;
+  --warning-foreground: #2c1b08;
+  --info: #78b8e5;
+  --info-foreground: #081b2d;
+  --border: rgba(202, 242, 236, 0.13);
+  --border-strong: rgba(202, 242, 236, 0.24);
+  --glass: rgba(24, 54, 57, 0.72);
+  --glass-strong: rgba(20, 45, 48, 0.94);
+  --glass-border: rgba(210, 249, 241, 0.24);
+  --glass-highlight: rgba(231, 255, 250, 0.34);
+  --mesh-1: #1b686d;
+  --mesh-2: #315c75;
+  --mesh-3: #1a756e;
+  --bg-gradient:
+    radial-gradient(60% 50% at 15% 10%, var(--mesh-1) 0%, transparent 70%),
+    radial-gradient(50% 45% at 90% 20%, var(--mesh-2) 0%, transparent 70%),
+    radial-gradient(60% 50% at 70% 95%, var(--mesh-3) 0%, transparent 70%);
+  --primary-gradient: linear-gradient(135deg, #69d4c4, #79bacb);
+  --shadow: 0 9px 22px rgba(0, 8, 10, 0.34);
+  --shadow-md: 0 16px 38px rgba(0, 8, 10, 0.45);
+  --shadow-lg: 0 24px 70px rgba(0, 8, 10, 0.55);
+  --shadow-focus: 0 0 0 3px rgba(105, 212, 196, 0.42);
+  --chart-color-1: #70d8c4;
+  --chart-color-2: #8cc8df;
+  --chart-color-3: #79aee7;
+  --chart-color-4: #63d4a4;
+  --chart-color-5: #f4c778;
+}
