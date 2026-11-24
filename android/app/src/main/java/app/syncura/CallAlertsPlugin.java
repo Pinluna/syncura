@@ -9,6 +9,7 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.ActivityCallback;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
 /**
@@ -73,8 +74,6 @@ public class CallAlertsPlugin extends Plugin {
 
     @PluginMethod
     public void pickRingtone(PluginCall call) {
-        // Remembered so the picker comes back to this call's result.
-        pluginCall = call;
         try {
             Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_RINGTONE);
@@ -89,9 +88,8 @@ public class CallAlertsPlugin extends Plugin {
 
     /** The system picker result. A cancelled pick resolves with an empty URI rather
      *  than an error, so the WebView can simply leave the current choice alone. */
-    @PluginMethod
-    public void ringtonePicked(PluginCall call, Intent intent) {
-        pluginCall = null;
+    @ActivityCallback
+    private void ringtonePicked(PluginCall call, Intent intent) {
         Uri uri = intent == null ? null : intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
         if (uri == null) {
             call.resolve(new JSObject());

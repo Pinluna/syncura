@@ -1,9 +1,11 @@
 package app.syncura;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 
 /**
  * Where the call preferences live, and how the native layer reads them.
@@ -64,5 +66,13 @@ public final class CallAlerts {
 
     public static void setEnabled(Context context, boolean value) {
         prefs(context).edit().putBoolean(KEY_ENABLED, value).apply();
+    }
+
+    /** Clears the call notification when the ringing ends. */
+    public static void cancelCallNotification(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
+        NotificationManager manager =
+            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager != null) manager.cancel(42);
     }
 }
